@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /admin/
+
+Sitemap: https://k-k-sheetpress-q28gpdkea-xpatworld2021s-projects.vercel.app/sitemap.xml
