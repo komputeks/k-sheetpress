@@ -53,10 +53,10 @@ export function DashboardPage() {
   const [copied, setCopied] = useState(false);
   const [sheetIdInput, setSheetIdInput] = useState('');
 
-  // Redirect unauthenticated users
+  // Redirect unauthenticated users to login
   useEffect(() => {
     if (!authLoading && !user) {
-      router.push('/login');
+      router.replace('/login');
     }
   }, [user, authLoading, router]);
 

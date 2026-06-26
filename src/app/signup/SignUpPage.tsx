@@ -1,14 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase-client';
 import { signInWithGoogle } from '@/lib/google-auth';
+import { useAuth } from '@/providers/AuthProvider';
 import { FileSpreadsheet, Mail, Lock, User, Eye, EyeOff, Loader2 } from 'lucide-react';
 
 export function SignUpPage() {
   const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
+
+  // Redirect logged-in users to dashboard
+  useEffect(() => {
+    if (!authLoading && user) router.replace('/dashboard');
+  }, [user, authLoading, router]);
+
+  if (authLoading || user) {
+    return <div className="flex min-h-[60vh] items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-brand-400" /></div>;
+  }
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
