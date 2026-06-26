@@ -2,45 +2,74 @@
 
 > Blog CMS with bi-directional Google Sheets & Supabase sync
 
-[![Deploy to Vercel](https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel)](https://k-sheetpress-mcunavp59-xpatworld2021s-projects.vercel.app)
-[![GitHub](https://img.shields.io/badge/Repo-GitHub-181717?logo=github)](https://github.com/komputeks/k-sheetpress)
-[![Next.js](https://img.shields.io/badge/Next.js-16.2-black?logo=next.js)](https://nextjs.org)
-[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase)](https://supabase.com)
+🌐 **Live Site:** [k-sheetpress-qio9sbt1d-xpatworld2021s-projects.vercel.app](https://k-sheetpress-qio9sbt1d-xpatworld2021s-projects.vercel.app)
 
-## 🌐 Live Site
+## What is K-SheetPress?
 
-**Production URL:** [k-sheetpress-mcunavp59-xpatworld2021s-projects.vercel.app](https://k-sheetpress-mcunavp59-xpatworld2021s-projects.vercel.app)
+K-SheetPress is a modern blog CMS that bridges the gap between the simplicity of a spreadsheet and the power of a modern web platform. Write your posts in Google Sheets, and they automatically appear on your blog. Edit them on the web, and your spreadsheet stays in sync — bi-directional, real-time, and fast.
 
-## 🚀 What is K-SheetPress?
+## Features
 
-K-SheetPress is a modern blog CMS that syncs bi-directionally between Google Sheets and Supabase. Write your posts in a spreadsheet, and they publish instantly on your blog. Edit on the web, and your spreadsheet stays in sync.
+- 🔀 **Bi-directional sync** — Edit posts in Google Sheets or the web editor; changes replicate both ways
+- 📊 **Google Sheets as CMS** — Service account integration; just share a spreadsheet with an email
+- ⚡ **Supabase backend** — Fast PostgreSQL reads/writes with row-level security
+- ✍️ **Markdown editor** — Full Markdown support with live preview
+- 🔗 **Clean permalinks** — SEO-friendly `/category/subcategory/post-slug` structure
+- 👤 **Public author profiles** — Every author gets a paginated, searchable profile page
+- ❤️ **Likes & comments** — Built-in engagement system
+- 🌙 **Dark/light theme** — System preference detection + manual toggle
+- 📱 **Responsive design** — Works beautifully on mobile and desktop
+- 🔐 **Auth** — Email/password + Google sign-in via Supabase Auth
+- 📖 **Documentation** — Landing copy, user manual, changelog, roadmap
+- 🛡️ **Admin dashboard** — Analytics, sync logs, user management
 
-## ✨ Key Features
+## Tech Stack
 
-- 🔀 **Bi-directional sync** — Edit in Google Sheets or the web editor, changes replicate both ways
-- 📊 **Google Sheets as CMS** — Service account integration, just share a spreadsheet with an email
-- ⚡ **Supabase backend** — Fast PostgreSQL reads/writes with Row Level Security
-- ✍️ **Markdown editor** — Write in Markdown with live preview
-- 🔗 **Clean permalinks** — `/category/subcategory/post-slug` structure
-- 👤 **Public author profiles** — Paginated, searchable post listings per author
-- ❤️ **Likes & Comments** — Engage with readers
-- 🌙 **Dark/Light theme** — System preference detection
-- 📱 **Responsive** — Works on mobile and desktop
-- 🔐 **Auth** — Email/password + Google sign-in
-- 🛡️ **Admin dashboard** — Sync logs, SMTP config, site settings
-- 📖 **Documentation** — User manual, changelog, roadmap
+- **Next.js 16** (App Router, Server Components)
+- **React 19** + **TypeScript**
+- **Tailwind CSS 4**
+- **Supabase** (Auth, PostgreSQL, RLS)
+- **Google Sheets API** (Service Account)
+- **Vercel** (Deployment, CDN)
 
-## 🏗️ Tech Stack
+## How It Works
 
-- **Framework:** Next.js 16 (App Router)
-- **Language:** TypeScript 6 (strict mode)
-- **Styling:** Tailwind CSS 4
-- **Database:** Supabase (PostgreSQL)
-- **Auth:** Supabase Auth (email + Google OAuth)
-- **CMS Interface:** Google Sheets (via Service Account)
-- **Deployment:** Vercel (auto-deploys on GitHub push)
+1. **Sign in** to K-SheetPress
+2. **Create** an empty Google Spreadsheet
+3. **Share** the spreadsheet with the K-SheetPress service account (as Editor)
+4. **Initialize** your sheet — we add columns, headers, and a sample post
+5. **Write** posts in Sheets or the built-in editor
+6. **Publish** — content syncs bi-directionally between Sheets and Supabase
 
-## 📊 Database Schema
+### Permalink Structure
+
+Every published post gets a clean URL: `/{cat1}/{cat2}/{post-slug}`
+
+Example: `/technology/web-dev/getting-started-with-k-sheetpress`
+
+### Sheet Columns
+
+| Column | Description |
+|--------|-------------|
+| `post_id` | Auto-generated UUID |
+| `post_title` | Post title |
+| `post_slug` | URL-friendly slug (auto-generated) |
+| `cat1` | Primary category |
+| `cat2` | Subcategory |
+| `post_description` | SEO description |
+| `post_excerpt` | Brief excerpt for listings |
+| `post_content` | Full content (Markdown) |
+| `post_tags` | Comma-separated tags |
+| `post_status` | `draft` or `published` |
+| `post_likes` | Like count |
+| `post_comments_count` | Comment count |
+| `featured_image` | Image URL |
+| `created_at` | Creation timestamp |
+| `updated_at` | Last update timestamp |
+
+## Database Schema
+
+All tables use the `k_sheetpress_` prefix:
 
 | Table | Purpose |
 |-------|---------|
@@ -50,72 +79,60 @@ K-SheetPress is a modern blog CMS that syncs bi-directionally between Google She
 | `k_sheetpress_likes` | Post likes |
 | `k_sheetpress_user_sheets` | Google Sheet connections per user |
 | `k_sheetpress_sync_log` | Sync audit trail |
-| `k_sheetpress_site_settings` | Site configuration key-value store |
+| `k_sheetpress_site_settings` | Site configuration |
 
-## 🔑 Demo Credentials
-
-- **Email:** `demo@sheetpress.dev`
-- **Password:** `password123`
-- **Admin Password:** `Ksheet@2025!Admin` (enter at `/admin`)
-
-## 📁 Project Structure
-
-```
-src/
-├── app/
-│   ├── api/          # API routes (posts, sheets, auth, admin)
-│   ├── admin/        # Admin dashboard
-│   ├── dashboard/    # User dashboard & post editor
-│   ├── docs/         # Documentation pages
-│   ├── explore/      # Post discovery
-│   ├── login/        # Authentication
-│   ├── signup/       # Registration
-│   ├── profile/      # Public author profiles
-│   └── [cat1]/[cat2]/[slug]/  # Post permalinks
-├── components/       # Shared UI components
-├── config/           # Site configuration
-├── lib/              # Utilities, Supabase clients, Google Sheets
-├── providers/        # Auth & Theme providers
-├── schemas/          # Zod validation schemas
-└── types/            # TypeScript type definitions
-```
-
-## 🔄 How Sync Works
-
-1. **Supabase → Sheets:** When you create/edit a post via the web editor, it's saved to Supabase first, then replicated to your Google Sheet
-2. **Sheets → Supabase:** Click "Sync Now" in the dashboard to pull changes from your Google Sheet into Supabase
-3. **Conflict Resolution:** Supabase is the source of truth; sheet syncs update Supabase records by matching `post_id`
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
 - Node.js 18+
 - A Supabase project
-- A Google Cloud service account with Sheets API enabled
+- A Google Cloud project with Sheets API enabled and a service account
 
-### Setup
+### Environment Variables
 
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/komputeks/k-sheetpress.git
-   cd k-sheetpress
-   ```
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_SERVICE_ACCOUNT_EMAIL=your_service_account_email
+GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY_ID=your_key_id
+GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY=your_private_key
+NEXT_PUBLIC_APP_URL=your_production_url
+NEXT_PUBLIC_APP_NAME=K-SheetPress
+```
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+### Install & Run
 
-3. Copy `.env.example` to `.env.local` and fill in your credentials
+```bash
+npm install
+npm run dev
+```
 
-4. Run the development server:
-   ```bash
-   npm run dev
-   ```
+### Build & Deploy
 
-5. Open [http://localhost:3000](http://localhost:3000)
+```bash
+npm run build
+npm start
+```
 
-## 📄 License
+Deployed automatically to Vercel on push to `main`.
+
+## Demo Account
+
+- **Email:** `demo@sheetpress.dev`
+- **Password:** `password123`
+
+## Architecture Decisions
+
+- **Next.js App Router** over Pages Router — Server Components, streaming, better data fetching
+- **Supabase** over raw PostgreSQL — Built-in auth, RLS, real-time capabilities
+- **Google Sheets as CMS interface** — Familiar interface for non-technical users
+- **Service Account** over OAuth — Simpler setup; users just share a spreadsheet with an email
+- **`k_sheetpress_` table prefix** — Namespace isolation in shared Supabase projects
+
+## License
 
 MIT
