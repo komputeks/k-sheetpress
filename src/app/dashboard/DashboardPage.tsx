@@ -90,11 +90,27 @@ export function DashboardPage() {
         } catch { setSheet(null); }
       } else { setSheet(null); }
 
-      // Parse profile
+      // Parse profile — auto-create if missing
       if (profileRes?.ok) {
         try {
           const data = await profileRes.json();
-          setProfile(data && typeof data === 'object' && data.username ? data : null);
+          if (data && typeof data === 'object' && data.username) {
+            setProfile(data);
+          } else {
+            // No profile yet — create one automatically
+            const username = user.email?.split('@')[0]?.toLowerCase().replace(/[^a-z0-9_-]/g, '') || 'user';
+            const createRes = await fetch('/api/profile', {
+              method: 'POST',
+              headers,
+              body: JSON.stringify({ username }),
+            });
+            if (createRes.ok) {
+              const newProfile = await createRes.json();
+              setProfile(newProfile);
+            } else {
+              setProfile(null);
+            }
+          }
         } catch { setProfile(null); }
       } else { setProfile(null); }
 
