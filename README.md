@@ -115,4 +115,6 @@ MIT
 
 ---
 
+🌐 **Live Demo:** [k-sheetpress.vercel.app](https://k-sheetpress-qspt3pop0-xpatworld2021s-projects.vercel.app)
+
 Built with ❤️ by [komputeks](https://github.com/komputeks)
