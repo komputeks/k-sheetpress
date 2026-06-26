@@ -2,7 +2,7 @@
 
 > Blog CMS with bi-directional Google Sheets & Supabase sync
 
-**🌐 Live Site:** [k-sheetpress-q28gpdkea-xpatworld2021s-projects.vercel.app](https://k-sheetpress-q28gpdkea-xpatworld2021s-projects.vercel.app)
+**🌐 Live Site:** [k-sheetpress.vercel.app](https://k-sheetpress.vercel.app)
 
 ## What is K-SheetPress?
 
@@ -26,13 +26,15 @@ K-SheetPress is a modern blog CMS that bridges the gap between the simplicity of
 
 ## Tech Stack
 
-- **Framework:** Next.js 16 (App Router)
-- **Language:** TypeScript (strict mode)
-- **Styling:** Tailwind CSS 4
-- **Database:** Supabase (PostgreSQL)
-- **Auth:** Supabase Auth (Email + Google OAuth)
-- **CMS Interface:** Google Sheets (via Service Account)
-- **Deployment:** Vercel (auto-deploys on GitHub push)
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript (strict mode) |
+| Styling | Tailwind CSS 4 |
+| Database | Supabase (PostgreSQL) |
+| Auth | Supabase Auth (Email + Google OAuth) |
+| CMS Interface | Google Sheets (via Service Account) |
+| Deployment | Vercel (auto-deploys on GitHub push) |
 
 ## Database Schema
 
@@ -65,7 +67,7 @@ All tables use the `k_sheetpress_` prefix:
    npm install
    ```
 
-2. **Configure environment variables** (see `.env.example` for reference):
+2. **Configure environment variables** — create a `.env.local` file:
    ```
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
@@ -85,12 +87,12 @@ All tables use the `k_sheetpress_` prefix:
 
 ### Using as an Author
 
-1. Sign up / Sign in
-2. Create an empty Google Spreadsheet
+1. Sign up or sign in
+2. Create an empty Google Spreadsheet at [sheets.new](https://sheets.new)
 3. Share it with the K-SheetPress service account email (as Editor)
-4. Paste the Spreadsheet ID in your dashboard and click "Initialize Sheet"
+4. Paste the Spreadsheet ID or full URL in your dashboard and click **Initialize Sheet**
 5. Start writing posts in the editor or directly in Google Sheets
-6. Click "Sync Now" to pull changes from Sheets into Supabase
+6. Click **Sync Now** to pull changes from Sheets into Supabase
 
 ## Permalink Structure
 
@@ -107,14 +109,51 @@ Example: `/technology/web-dev/getting-started-with-k-sheetpress`
 - **Email:** `demo@sheetpress.dev`
 - **Password:** `password123`
 
+## How Sync Works
+
+### Supabase → Google Sheets (automatic)
+When you create or edit a post via the web editor, the change is saved to Supabase first, then automatically replicated to your connected Google Sheet.
+
+### Google Sheets → Supabase (manual trigger)
+When you edit posts directly in Google Sheets, click **Sync Now** in your dashboard to pull all changes into Supabase. The sync engine:
+- Reads all rows from your sheet
+- Matches rows by `post_id`
+- Creates new posts for rows without an ID
+- Updates existing posts for rows with a matching ID
+- Logs every sync operation for auditability
+
 ## Architecture Decisions
 
-- **Next.js App Router** over Pages Router — Server Components, streaming, better data fetching
-- **Supabase** over Firebase — Relational data, RLS, open source, real PostgreSQL
-- **Google Sheets as CMS** — Familiar interface, no new UI to learn, built-in collaboration
-- **Service Account** over OAuth — Simpler setup, users just share a spreadsheet with an email
+| Decision | Rationale |
+|----------|-----------|
+| Next.js App Router | Server Components, streaming, better data fetching patterns |
+| Supabase over Firebase | Relational data, RLS, real PostgreSQL, open source |
+| Google Sheets as CMS | Familiar interface, no new UI to learn, built-in collaboration |
+| Service Account over OAuth | Simpler setup — users just share a spreadsheet with an email |
+| `k_sheetpress_` table prefix | Namespace isolation in shared Supabase projects |
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── api/              # API routes (posts, sheets, comments, auth, etc.)
+│   ├── [cat1]/[cat2]/    # Dynamic post permalink pages
+│   ├── admin/            # Admin dashboard
+│   ├── dashboard/        # User dashboard + post editor
+│   ├── docs/             # Documentation pages
+│   ├── explore/          # Public post explorer
+│   ├── login/            # Auth pages
+│   ├── profile/          # Public author profiles
+│   └── signup/           # Registration
+├── components/           # Shared UI components
+├── config/               # Site configuration
+├── lib/                  # Supabase clients, Google Sheets client, utilities
+├── providers/            # Auth & Theme providers
+├── schemas/              # Zod validation schemas
+└── types/                # TypeScript type definitions
+```
 
 ## License
 
 MIT
-# Build Thu Jun 25 23:54:31 UTC 2026
